@@ -1,0 +1,61 @@
+## aliases for ls to lsd
+alias ls='lsd'
+alias l='ls -lh'
+alias la='ls -ah'
+alias ll='ls -lah'
+alias lt='ls --tree'
+
+## aliases for common config files that I edit.
+alias ealias='lvim ~/.aliases'
+alias ezsh='lvim ~/.zshrc'
+alias estarship='lvim ~/.config/starship.toml'
+alias szsh='source ~/.zshrc'
+
+## aliases for git
+alias gcl='git clone --recurse '
+alias gcm='git commit -m ""'
+
+## system stuff
+alias upd='sudo apt update && sudo apt upgrade'
+
+## Misc aliases
+alias man='tldr'
+alias cat='bat'
+
+alias aghome='sshfs acchapm1@agave:/home/acchapm1 /home/ac/sshfs/agave/home && cd /home/ac/sshfs/agave/home'
+alias agscratch='sshfs acchapm1@agave:/scratch/acchapm1 /home/ac/sshfs/agave/scratch && cd /home/ac/sshfs/agave/scratch'
+
+alias solsalt='sshfs acchapm1@salt:/srv/saltsol /home/ac/sshfs/sol/salt && cd /home/ac/sshfs/sol/salt'
+alias solsratch='sshfs acchapm1@admin:/scratch/acchapm1 /home/ac/sshfs/sol/scratch && cd /home/ac/sshfs/sol/sratch'
+alias solhome='sshfs acchapm1@admin:/home/acchapm1 /home/ac/sshfs/sol/home && cd /home/ac/sshfs/sol/home'
+
+alias agdatasets='sshfs acchapm1@agave:/data/datasets/community /home/ac/sshfs/agave/datasets && cd /home/ac/sshfs/agave/datasets'
+
+alias py='python3'
+alias condaa='conda activate '
+alias condad='conda deactivate '
+
+alias splinter='ssh splinter'
+alias agave='s agave'
+alias salt='s 10.126.25.3'
+alias tagave='ssh agave "exit"'
+alias py='python3'
+
+alias kt='py ~/.config/kitty/kittytheme.py'
+alias ktt='py ~/.config/kitty/kittytheme.py -t -L'
+
+alias alc='alacritty '
+alias lv='lvim '
+
+alias s='kitty +kitten ssh'
+
+#export ZELLIJ_CONFIG_FILE='/home/acchapm1/.config/zellij/config.yaml'
+#export ZELLIJ_CONFIG_DIR='/home/acchapm1/.config/zellij/'
+
+#alias zag='bash ./home/acchapm1/.config/zelli/scriptsagave.sh'
+
+alias cz='chezmoi '
+alias cza='chezmoi add '
+alias cze='chezmoi edit '
+alias czd='chezmoi diff'
+alias czc='chezmoi cd'
