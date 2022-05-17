@@ -28,6 +28,7 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.Grid
+import XMonad.Util.NamedScratchpad as NS
 
 import XMonad.Prompt
 import XMonad.Prompt.Window
@@ -105,6 +106,38 @@ myManageHook = composeAll . concat $
     my9Shifts = ["Gimp", "feh"]
     my10Shifts = ["discord", "caprine", "signal"]
     
+-- Scratchpads
+myScratchPads :: [NamedScratchpad]
+myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
+                , NS "bottom" spawnBtm findBtm manageBtm
+                , NS "note" spawnNote findNote manageNote
+                ]
+  where
+    spawnTerm  = "kitty -T=ns-kitty --class=ns-kitty"
+    findTerm   = title =? "ns-kitty"
+    manageTerm = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.7
+                 w = 0.7
+                 t = 0.9 -h
+                 l = 0.9 -w
+    spawnBtm  = "kitty -T=Btm --class=btm btm"
+    findBtm   = title =? "Btm"
+    manageBtm = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.5
+                 w = 0.5
+                 t = 0.9 -h
+                 l = 0.9 -w
+    spawnNote  = "notepadqq"
+    findNote   = className =? "Notepadqq"
+    manageNote = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.5
+                 w = 0.5
+                 t = 0.75 -h
+                 l = 0.70 -w
+
 
 myLayout = spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ avoidStruts $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ Grid ||| tiled ||| Mirror tiled ||| spiral (6/7)  ||| ThreeColMid 1 (3/100) (1/2) ||| Full
     where
@@ -231,6 +264,14 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((controlMask, xK_Print), spawn $ "xfce4-screenshooter" )
   , ((controlMask .|. shiftMask , xK_Print ), spawn $ "gnome-screenshot -i")
   , ((controlMask .|. modMask , xK_Print ), spawn $ "flameshot gui")
+  
+  -- KB_GROUP Scratchpads
+  -- Toggle show/hide these programs.  They run on a hidden workspace.
+  -- When you toggle them to show, it brings them to your current workspace.
+  -- Toggle them to hide and it sends them back to hidden workspace (NSP).
+   , ((mod1Mask, xK_t), namedScratchpadAction myScratchPads "terminal")
+   , ((mod1Mask, xK_b), namedScratchpadAction myScratchPads "bottom")
+   , ((mod1Mask, xK_n), namedScratchpadAction myScratchPads "note")
 
   --MULTIMEDIA KEYS
 
@@ -375,7 +416,7 @@ main = do
 
                 {startupHook = myStartupHook
 , layoutHook = gaps [(U,35), (D,5), (R,5), (L,5)] $ myLayout ||| layoutHook myBaseConfig
-, manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
+, manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig <+> namedScratchpadManageHook myScratchPads
 , modMask = myModMask
 , borderWidth = myBorderWidth
 , handleEventHook    = handleEventHook myBaseConfig <+> fullscreenEventHook
